@@ -6,7 +6,7 @@
 /*   By: tafanasi <tafanasi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/05 15:29:07 by tafanasi          #+#    #+#             */
-/*   Updated: 2024/10/05 15:29:11 by tafanasi         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:56:08 by tafanasi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,55 +14,36 @@
 
 void	ft_putchar(char c);
 
-int	rush(const int x, const int y)
+void	check_output(int row, int col, int x, int y)
 {
-	int	rows;
-	int	columns;
+	if ((row == 1 && col == 1) || (row == y && col == x && x != 1 && y != 1))
+		ft_putchar('/');
+	else if ((row == 1 && col == x) || (row == y && col == 1))
+		ft_putchar('\\');
+	else if (row == 1 || row == y || col == 1 || col == x)
+		ft_putchar('*');
+	else
+		ft_putchar(' ');
+}
 
-	rows = 0;
-	while (rows < y)
+void	rush(const int x, const int y)
+{
+	int	row;
+	int	col;
+
+	if (x >= 0 || y >= 0)
 	{
-		// over each row (Y)
-		columns = 0;
-		while (columns < x)
+		row = 1;
+		while (row <= y)
 		{
-			// over each col (X)
-			if (rows == 0)
+			col = 1;
+			while (col <= x)
 			{
-				// === HANDLE (START) ===
-				// first row handle
-				if (columns == 0)
-					ft_putchar('/');
-				else if (columns == x - 1)
-					ft_putchar('\\');
-				else
-					ft_putchar('*');
+				check_output(row, col, x, y);
+				col++;
 			}
-			else if (rows == y - 1)
-			{
-				// === HANDLE (END) ===
-				// last row handle
-				if (columns == 0)
-					ft_putchar('\\');
-				else if (columns == x - 1)
-					ft_putchar('/');
-				else
-					ft_putchar('*');
-			}
-			else
-			{
-				// // === HANDLE (EVERYTHING ELSE) ===
-				// middle rows handle
-				if (columns == 0 || columns == x - 1)
-					ft_putchar('*');
-				else
-					ft_putchar(' ');
-			}
-			columns++;
+			ft_putchar('\n');
+			row++;
 		}
-		// add a new line after each row output
-		ft_putchar('\n');
-		rows++;
 	}
-	return (0);
 }
